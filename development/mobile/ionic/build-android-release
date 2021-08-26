@@ -1,0 +1,54 @@
+#!/bin/bash
+RED='\033[0;31m'
+NC='\033[0m'
+GREEN='\033[92m'
+
+if [ ! -f "ionic.config.json" ]
+then
+    echo -e "${RED}ERROR: Working directory must be a valid Ionic project folder.${NC}" >&2
+    exit 1
+else
+    HOME="${PWD}"
+    ALIAS="${PWD##*/}"
+    APK="${ALIAS}.apk"
+    APK_PATH="${HOME}/${APK}"
+    ANDROID_PATH="${HOME}/platforms/android/build/outputs/apk/release"
+    UNSIGNED_APK="android-release-unsigned.apk"
+    UNSIGNED_APK_PATH="${ANDROID_PATH}/${UNSIGNED_APK}"
+    if [ ! -d "${ANDROID_PATH}" ]
+    then
+        ANDROID_PATH="${HOME}/platforms/android/app/build/outputs/apk/release"
+        UNSIGNED_APK="app-release-unsigned.apk"
+        UNSIGNED_APK_PATH="${ANDROID_PATH}/${UNSIGNED_APK}"
+    fi
+
+    
+    KEYSTORE_PATH="${HOME}/my-release-key.keystore"
+    KEYSTORE="my-release-key.keystore"
+
+    if [ ! -f "${KEYSTORE}" ] 
+    then
+        echo "Keystore not found, generating keystore"
+        echo -e "${GREEN}keytool -genkey -v -keystore ${KEYSTORE} -storepass ****** -keypass ****** -alias ${ALIAS}  -keyalg RSA -keysize 2048 -validity 10000${NC}"
+        keytool -genkey -v -keystore ${KEYSTORE} -storepass cmseixal -keypass cmseixal -alias ${ALIAS} -keyalg RSA -keysize 2048 -validity 10000
+    fi
+
+    echo "Delete old .apk"
+    echo -e "${GREEN}rm ${APK}${NC}"
+    rm ${APK}
+
+    echo "Build new release .apk"
+    echo -e "${GREEN}ionic cordova build --release android${NC}"
+    ionic cordova build --release android
+
+    echo "Sign new .apk"
+    echo -e "${GREEN}cd ${ANDROID_PATH}${NC}"
+    cd ${ANDROID_PATH}
+
+    echo -e "${GREEN}jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore ${KEYSTORE_PATH} -storepass ****** ${UNSIGNED_APK} ${ALIAS}${NC}"
+    jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore ${KEYSTORE_PATH} -storepass cmseixal ${UNSIGNED_APK} seixalappe
+
+    echo "Optimizing .apk"
+    echo -e "${GREEN}zipalign -v 4 ${UNSIGNED_APK} ${APK_PATH}${NC}"
+    zipalign -v 4 ${UNSIGNED_APK} ${APK_PATH}
+fi
