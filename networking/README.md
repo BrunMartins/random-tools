@@ -1,3 +1,4 @@
 # Networking tools
 
-- dnsproxy: A wildcard capable DNS proxy
+- [dnsproxy](./dnsproxy): A wildcard capable DNS proxy
+  

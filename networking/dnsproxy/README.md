@@ -1,3 +1,3 @@
 # DNS Proxy - A wildcard capable DNS proxy
 
-Written by [Marlon Yao](https://github.com/marlonyao)
+dnsproxy.py written by [Marlon Yao](https://github.com/marlonyao)
