@@ -1,0 +1,1 @@
+sudo python dnsproxy.py -s 1.1.1.1

@@ -1,0 +1,38 @@
+#!/bin/bash
+wd="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+
+key="$1"
+
+case $key in
+    -e|--export)
+    echo -e "\033[92mSaving file to ${wd}/code-extensions.extlist\033[39m";
+    echo ""
+    code --list-extensions > "${wd}/code-extensions.extlist"
+    ;;
+    -i|--import)
+    IFS=$'\n' read -d '' -r -a ext < "${wd}/code-extensions.extlist"
+    echo "${ext[@]}"
+    echo -e "\033[36m\033[1mBegining installation of desired extensions.\033[0m"
+
+    for ex in "${ext[@]}"
+    do
+        :
+        echo -e "\033[36mcode --install-extension ${ex}"
+        if code --install-extension ${ex} > /dev/null 2&>2
+        then
+            echo -e "\033[92m${ex} installed sucessfully";
+            echo ""
+        else
+            echo -e "\033[91m${ex} install failed, check extension ID. The extension may be already installed.";
+            echo "" 
+        fi
+    done
+
+    #osascript -e 'display notification "Finished installing the desired Visual Studio Code Extensions" with title "Multi Extension installer"' > /dev/null
+    echo -e "\033[92mDone.\033[39m"
+    ;;
+    *)    # unknown option
+    echo -e "\033[91m You have to specify 1 of the two available parameters -e/--export for exporting the extension list and -i/--import for importing a list, when importing the list must be in the same directory as the script.\033[39m";
+    echo "" 
+    ;;
+esac
