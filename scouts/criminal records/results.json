@@ -1,0 +1,46 @@
+{
+ "David André de Carvalho Fernandes Gil": {
+  "valid": false,
+  "message": "Não tem registo criminal associado"
+ },
+ "Fábio André Marques Coelho": {
+  "valid": true,
+  "message": "Registo criminal válido"
+ },
+ "Bernardo José Nunes Dias": {
+  "valid": false,
+  "message": "Registo criminal anterior à data mínima de emissão"
+ },
+ "Catarina Januário Antunes": {
+  "valid": false,
+  "message": "Não tem registo criminal associado"
+ },
+ "Virgínia Maria Félix Mourão dos Santos": {
+  "valid": false,
+  "message": "Registo criminal anterior à data mínima de emissão"
+ },
+ "Bruno Filipe Fernandes Martins": {
+  "valid": true,
+  "message": "Registo criminal válido"
+ },
+ "Bruno Filipe Rio Fonseca": {
+  "valid": false,
+  "message": "Registo criminal anterior à data mínima de emissão"
+ },
+ "Inês Pires Aleixo": {
+  "valid": false,
+  "message": "Registo criminal anterior à data mínima de emissão"
+ },
+ "Filipa Andreia da Cunha Ramalho": {
+  "valid": true,
+  "message": "Registo criminal válido"
+ },
+ "Sérgio Duarte de Jesus Sanganha": {
+  "valid": false,
+  "message": "Registo criminal anterior à data mínima de emissão"
+ },
+ "Joana Isabel Nunes dos Santos": {
+  "valid": true,
+  "message": "Registo criminal válido"
+ }
+}

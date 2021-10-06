@@ -1,0 +1,72 @@
+<html>
+    <head>
+        <title>
+            Validade dos registos criminais
+        </title>
+        <style>
+            body {
+                font-family: arial;
+
+            }
+            #main {
+                width: 60%;
+                margin: 20px auto;
+            }
+            
+            #main #results {
+                display: grid;
+                grid-template-columns: auto auto auto;
+                column-gap: 10px;
+                row-gap: 10px;
+            }
+
+            #main #results .item {
+                padding: 5px;
+                border: 1px solid rgba(0, 0, 0, 0.219);
+                border-radius: 3px;
+            }
+
+            #main #results .item.valid {
+                background-color: rgba(128, 255, 111, 0.623);
+            }
+
+            #main #results .item.invalid {
+                background-color: rgba(250, 132, 132, 0.664);
+            }
+
+            #main #results .item .name {
+                font-size: 1.2rem;
+                margin-bottom: 10px;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="main">
+            <div id="results">
+            </div>
+        </div>
+    </body>
+    <script type="text/javascript">
+        "use strict";
+
+        const ul = document.getElementById("results");
+        const localJsonFile = "results.json";
+
+        window.addEventListener("DOMContentLoaded", () => {
+        ul.textContent = "Loading....";
+
+        fetch(localJsonFile)
+            .then((response) => response.json()) // and the response we get is in json format
+            .then((data) => {
+                let html = "";
+                console.log(data);
+                for(const item in data) {
+                    html += `<div class="item ${data[item].valid ? "valid" : "invalid" }"><div class="name"><b>${item}</b></div><div class="state"><span>Estado: </span><span>${data[item].valid ? "Válido" : "Inválido" }</span></div>${!data[item].valid ? `<div class="reason"><span>Razão: </span><span>${data[item].message}</span></div>` : ""}</div>`;
+                }
+
+                ul.innerHTML = html;
+            });
+        });
+
+    </script>
+</html>
