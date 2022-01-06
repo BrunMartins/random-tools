@@ -1,4 +1,8 @@
 function caeser(message, key, rounds = 1, decrypt = false) {
+    if (key.includes('rand')) {
+        key = Math.ceil(Math.random() * (Math.floor(parseInt(key.replace('rand', ''))) - 2) + 2);
+    }
+    
     if (isNaN(key * 1)) {
         return "The key argument must be numeric";
     } else if (isNaN(rounds * 1)) {
